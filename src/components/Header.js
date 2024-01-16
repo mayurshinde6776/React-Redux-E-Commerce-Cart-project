@@ -4,12 +4,14 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Badge from '@mui/material/Badge';
 import { NavLink } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import Menu from '@mui/material/Menu';
 import { useSelector } from 'react-redux';
 import { Table } from '@mui/material';
 
 const Header = () => {
 
+  // get data from store
   const getdata = useSelector((state) => state.cartreducer.carts);
   // console.log(getdata);
 
@@ -26,11 +28,11 @@ const Header = () => {
 
     <Navbar bg="dark" data-bs-theme="dark" style={{ height: '60px' }}>
       <Container>
-        <NavLink to='/' className='text-decoration-mome text-light' >Add to Cart</NavLink>
+        <Link to='/' className='text-decoration-none text-light' >Add to Cart</Link>
         <Nav className="me-auto">
-          <NavLink to='/home' className='text-decoration-mome text-white'>Home</NavLink>
+          <Link to='/' className='text-decoration-none text-white mx-2'>Home</Link>
 
-        </Nav>
+        </Nav> 
 
         <Badge badgeContent={getdata.length} color="primary"
           id="basic-button"
@@ -73,9 +75,7 @@ const Header = () => {
                         <>
                           <tr>
                             <td>
-                              <NavLink to={`/cart/${e.id}`}>
-                              <img src={e.imgdata} style={{ width: "5rem", height: '5rem' }} alt='' />
-                              </NavLink>
+                              <Link to={`/cart/${e.id}`}><img src={e.imgdata} style={{ width: "5rem", height: '5rem' }} alt='' /></Link>
                                  </td>
                             <td>
                               <p>{e.rname}</p>

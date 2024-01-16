@@ -1,8 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Table } from '@mui/material';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 const CardsDetails = () => {
+
+    // get data from url
+    const {id}= useParams();
+    console.log(id);
+
+    //get data from redux store
+    const getdata = useSelector((state) => state.cartreducer.carts);
+     
+    //cpmpare data from store and params
+const compare=()=>{
+    let comparedata=getdata.filter((e)=>{
+        return e.id==id
+    });
+    console.log("comparedata",comparedata);
+}
+
+// when id is change then compare menthod is called
+ useEffect(()=>{
+    compare();
+},[id])
+
     return (
         <>
             <div className='container mt-2'>
