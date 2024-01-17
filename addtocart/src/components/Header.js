@@ -9,18 +9,18 @@ import Menu from '@mui/material/Menu';
 import { useDispatch, useSelector } from 'react-redux';
 import { Table } from '@mui/material';
 import { DLT, REMOVE } from './redux/actions/actions';
-import {loadStripe} from '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
 const Header = () => {
 
   // get data from store
   const getdata = useSelector((state) => state.cartreducer.carts);
- 
-   console.log("getdata",getdata);
 
-const dispatch= useDispatch();
+  // console.log("getdata",getdata);
 
-const [price,setPrice]=useState();
+  const dispatch = useDispatch();
+
+  const [price, setPrice] = useState();
 
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -32,54 +32,54 @@ const [price,setPrice]=useState();
     setAnchorEl(null);
   };
 
-  const dlt=(id)=>{
-  dispatch(DLT(id));
+  const dlt = (id) => {
+    dispatch(DLT(id));
   }
 
- const total=()=>{
-  let price=0;
-  getdata.map((ele, key)=>{
-    price=ele.price * ele.qnty + price;
-  });
-  setPrice(price);
- } 
+  const total = () => {
+    let price = 0;
+    getdata.map((ele, key) => {
+      price = ele.price * ele.qnty + price;
+    });
+    setPrice(price);
+  }
 
- useEffect(()=>{
-  total();
- },[total])
+  useEffect(() => {
+    total();
+  }, [total])
 
- const remove=(item)=>{
-  dispatch(REMOVE(item))
-}
+  const remove = (item) => {
+    dispatch(REMOVE(item))
+  }
 
 
-//payment integration 
-// dummy visa card number to test: 4000003560000008
-const makePayment= async ()=>{
-const stripe= await loadStripe("pk_test_51OYoZhSEOKoo6wPzNtFIx0iTGNiwnZIUzWHKi3zDlRwToMvIGFElKf3gpIagGBqwrG2tT96ojJLjfEHuSAeKOslx00Bj2msRAW");
+  //payment integration 
+  // dummy visa card number to test: 4000003560000008
+  const makePayment = async () => {
+    const stripe = await loadStripe("pk_test_51OYoZhSEOKoo6wPzNtFIx0iTGNiwnZIUzWHKi3zDlRwToMvIGFElKf3gpIagGBqwrG2tT96ojJLjfEHuSAeKOslx00Bj2msRAW");
 
-const body={
-  products: getdata
-}
-const headers={
-  "Content-Type":"application/json"
-}
-const response= await fetch('http://localhost:7000/api/create-checkout-session',{
-  method:"POST",
-  headers:headers,
-  body: JSON.stringify(body)
-});
+    const body = {
+      products: getdata
+    }
+    const headers = {
+      "Content-Type": "application/json"
+    }
+    const response = await fetch('http://localhost:7000/api/create-checkout-session', {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(body)
+    });
 
-const session =await response.json();
+    const session = await response.json();
 
-const result=stripe.redirectToCheckout({
-  sessionId:session.id
-});
+    const result = stripe.redirectToCheckout({
+      sessionId: session.id
+    });
 
-if(result.error){
-  console.log( result.error);
-}
-}
+    if (result.error) {
+      console.log(result.error);
+    }
+  }
 
   return (
 
@@ -89,7 +89,7 @@ if(result.error){
         <Nav className="me-auto">
           <Link to='/' className='text-decoration-none text-white mx-2'>Home</Link>
 
-        </Nav> 
+        </Nav>
 
         <Badge badgeContent={getdata.length} color="primary"
           id="basic-button"
@@ -132,20 +132,20 @@ if(result.error){
                         <>
                           <tr>
                             <td>
-                              <Link to={`/cart/${e.id}`}  onClick={handleClose}>
-                                  <img src={e.imgdata} style={{ width: "5rem", height: '5rem' }} alt='' /></Link>
-                                 </td>
+                              <Link to={`/cart/${e.id}`} onClick={handleClose}>
+                                <img src={e.imgdata} style={{ width: "5rem", height: '5rem' }} alt='' /></Link>
+                            </td>
                             <td>
                               <p>{e.rname}</p>
                               <p>Price : ₹ {e.price} </p>
                               <p>Quantity : {e.qnty} </p>
                               <hr />
-                              
-                              <p style={{ color: 'red', fontSize: 20, cursor: "pointer" }} onClick={e.qnty <=1 ? ()=>dlt(e.id) :()=>remove(e)}>
+
+                              <p style={{ color: 'red', fontSize: 20, cursor: "pointer" }} onClick={e.qnty <= 1 ? () => dlt(e.id) : () => remove(e)}>
                                 <i className='fas fa-trash smalltrash'></i>
                               </p>
                             </td>
-                            <td className='mt-5' style={{ color: 'red', fontSize: 20, cursor: "pointer" }} onClick={()=>dlt(e.id)}>
+                            <td className='mt-5' style={{ color: 'red', fontSize: 20, cursor: "pointer" }} onClick={() => dlt(e.id)}>
                               <i className='fas fa-trash largetrash'></i>
                             </td>
 
@@ -156,10 +156,11 @@ if(result.error){
                     })
                   }
 
-                 <div className='d-flex'>
-                 <p className='text-left '>Total: ₹ {price}</p>
-                  <button className='text-center ml-5 btn btn-success' type='button' onClick={makePayment}>Checkout</button>
-                 </div>
+                  <div className='d-flex justify-content-between'>
+                    <p className='text-left'>Total: ₹ {price}</p>
+                    <button className='btn btn-success' type='button' onClick={makePayment}>Checkout</button>
+                  </div>
+
                 </tbody>
               </Table>
             </div> :
