@@ -8,7 +8,8 @@ import { Link } from 'react-router-dom';
 import Menu from '@mui/material/Menu';
 import { useDispatch, useSelector } from 'react-redux';
 import { Table } from '@mui/material';
-import { DLT } from './redux/actions/actions';
+import { DLT, REMOVE } from './redux/actions/actions';
+import {loadStripe} from '@stripe/stripe-js';
 
 const Header = () => {
 
@@ -37,7 +38,7 @@ const [price,setPrice]=useState();
  const total=()=>{
   let price=0;
   getdata.map((ele, key)=>{
-    price=ele.price+price;
+    price=ele.price * ele.qnty + price;
   });
   setPrice(price);
  } 
@@ -45,6 +46,36 @@ const [price,setPrice]=useState();
  useEffect(()=>{
   total();
  },[total])
+
+ const remove=(item)=>{
+  dispatch(REMOVE(item))
+}
+//payment integration
+const makePayment= async ()=>{
+const stripe=await loadStripe("pk_test_51OYoZhSEOKoo6wPzNtFIx0iTGNiwnZIUzWHKi3zDlRwToMvIGFElKf3gpIagGBqwrG2tT96ojJLjfEHuSAeKOslx00Bj2msRAW");
+
+const body={
+  products:getdata
+}
+const headers={
+  "Content-Type":"application/json"
+}
+const response= await fetch("http://localhost:7000/api/create-checkout-session",{
+  method:"POST",
+  headers:headers,
+  body:JSON.stringify(body)
+});
+
+const session =await response.json();
+
+const result=stripe.redirectToCheckout({
+  sessionId:session.id
+});
+
+if(result.error){
+  console.log( result.error);
+}
+}
 
   return (
 
@@ -105,7 +136,8 @@ const [price,setPrice]=useState();
                               <p>Price : ₹ {e.price} </p>
                               <p>Quantity : {e.qnty} </p>
                               <hr />
-                              <p style={{ color: 'red', fontSize: 20, cursor: "pointer" }} onClick={()=>dlt(e.id)}>
+                              
+                              <p style={{ color: 'red', fontSize: 20, cursor: "pointer" }} onClick={e.qnty <=1 ? ()=>dlt(e.id) :()=>remove(e)}>
                                 <i className='fas fa-trash smalltrash'></i>
                               </p>
                             </td>
@@ -120,7 +152,10 @@ const [price,setPrice]=useState();
                     })
                   }
 
-                  <p className='text-center'>Total: ₹ {price}</p>
+                 <div className='d-flex'>
+                 <p className='text-left '>Total: ₹ {price}</p>
+                  <button className='text-center ml-5 btn btn-success' type='button' onClick={makePayment}>Checkout</button>
+                 </div>
                 </tbody>
               </Table>
             </div> :
