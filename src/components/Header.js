@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -6,14 +6,20 @@ import Badge from '@mui/material/Badge';
 import { NavLink } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Menu from '@mui/material/Menu';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Table } from '@mui/material';
+import { DLT } from './redux/actions/actions';
 
 const Header = () => {
 
   // get data from store
   const getdata = useSelector((state) => state.cartreducer.carts);
   // console.log(getdata);
+
+const dispatch= useDispatch();
+
+const [price,setPrice]=useState();
+
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -23,6 +29,22 @@ const Header = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const dlt=(id)=>{
+  dispatch(DLT(id));
+  }
+
+ const total=()=>{
+  let price=0;
+  getdata.map((ele, key)=>{
+    price=ele.price+price;
+  });
+  setPrice(price);
+ } 
+
+ useEffect(()=>{
+  total();
+ },[total])
 
   return (
 
@@ -75,18 +97,19 @@ const Header = () => {
                         <>
                           <tr>
                             <td>
-                              <Link to={`/cart/${e.id}`}><img src={e.imgdata} style={{ width: "5rem", height: '5rem' }} alt='' /></Link>
+                              <Link to={`/cart/${e.id}`}  onClick={handleClose}>
+                                  <img src={e.imgdata} style={{ width: "5rem", height: '5rem' }} alt='' /></Link>
                                  </td>
                             <td>
                               <p>{e.rname}</p>
                               <p>Price : ₹ {e.price} </p>
                               <p>Quantity : {e.qnty} </p>
                               <hr />
-                              <p style={{ color: 'red', fontSize: 20, cursor: "pointer" }}>
+                              <p style={{ color: 'red', fontSize: 20, cursor: "pointer" }} onClick={()=>dlt(e.id)}>
                                 <i className='fas fa-trash smalltrash'></i>
                               </p>
                             </td>
-                            <td className='mt-5' style={{ color: 'red', fontSize: 20, cursor: "pointer" }}>
+                            <td className='mt-5' style={{ color: 'red', fontSize: 20, cursor: "pointer" }} onClick={()=>dlt(e.id)}>
                               <i className='fas fa-trash largetrash'></i>
                             </td>
 
@@ -97,7 +120,7 @@ const Header = () => {
                     })
                   }
 
-                  <p className='text-center'>Total: ₹ 300</p>
+                  <p className='text-center'>Total: ₹ {price}</p>
                 </tbody>
               </Table>
             </div> :
