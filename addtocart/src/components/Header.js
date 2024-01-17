@@ -15,7 +15,8 @@ const Header = () => {
 
   // get data from store
   const getdata = useSelector((state) => state.cartreducer.carts);
-  // console.log(getdata);
+ 
+   console.log("getdata",getdata);
 
 const dispatch= useDispatch();
 
@@ -50,20 +51,23 @@ const [price,setPrice]=useState();
  const remove=(item)=>{
   dispatch(REMOVE(item))
 }
-//payment integration
+
+
+//payment integration 
+// dummy visa card number to test: 4000003560000008
 const makePayment= async ()=>{
-const stripe=await loadStripe("pk_test_51OYoZhSEOKoo6wPzNtFIx0iTGNiwnZIUzWHKi3zDlRwToMvIGFElKf3gpIagGBqwrG2tT96ojJLjfEHuSAeKOslx00Bj2msRAW");
+const stripe= await loadStripe("pk_test_51OYoZhSEOKoo6wPzNtFIx0iTGNiwnZIUzWHKi3zDlRwToMvIGFElKf3gpIagGBqwrG2tT96ojJLjfEHuSAeKOslx00Bj2msRAW");
 
 const body={
-  products:getdata
+  products: getdata
 }
 const headers={
   "Content-Type":"application/json"
 }
-const response= await fetch("http://localhost:7000/api/create-checkout-session",{
+const response= await fetch('http://localhost:7000/api/create-checkout-session',{
   method:"POST",
   headers:headers,
-  body:JSON.stringify(body)
+  body: JSON.stringify(body)
 });
 
 const session =await response.json();
