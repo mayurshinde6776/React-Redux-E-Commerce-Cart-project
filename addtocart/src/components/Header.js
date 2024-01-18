@@ -11,6 +11,7 @@ import { Table } from '@mui/material';
 import { DLT, REMOVE } from './redux/actions/actions';
 import { loadStripe } from '@stripe/stripe-js';
 
+
 const Header = () => {
 
   // get data from store
@@ -27,7 +28,10 @@ const Header = () => {
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+
   };
+
+  
   const handleClose = () => {
     setAnchorEl(null);
   };
