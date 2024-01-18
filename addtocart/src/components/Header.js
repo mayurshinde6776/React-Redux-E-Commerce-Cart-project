@@ -86,16 +86,14 @@ const Header = () => {
   }
 
   return (
-<>
-    <Navbar bg="" data-bs-theme="" style={{ height: '60px' , background:"#28a745" }}>
+    <>
+    <Navbar bg="" data-bs-theme="" style={{ height: '60px', background: "#28a745" }}>
       <Container>
-        
-        <Nav className="me-auto ">
-        <Link to='/' className='text-decoration-none text-light' >Zepto</Link>
+        <Nav className="me-auto">
+          <Link to='/' className='text-decoration-none text-light' >Zepto</Link>
           <Link to='/' className='text-decoration-none text-white mx-2'>Home</Link>
-
         </Nav>
-
+  
         <Badge badgeContent={getdata.length} color="primary"
           id="basic-button"
           aria-controls={open ? 'basic-menu' : undefined}
@@ -103,12 +101,10 @@ const Header = () => {
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
         >
-
-          <i class="fa-solid fa-cart-plus text-light" style={{ fontSize: 25, cursor: 'pointer' }}></i>
-
+          <i className="fa-solid fa-cart-plus text-light" style={{ fontSize: 25, cursor: 'pointer' }}></i>
         </Badge>
-
       </Container>
+  
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -118,85 +114,77 @@ const Header = () => {
           'aria-labelledby': 'basic-button',
         }}
       >
-
         {
           getdata.length ?
             <div className='card_details' style={{ width: "24rem", padding: 10 }}>
-              <Table>
+              <Table responsive>
                 <thead>
                   <tr>
                     <th>Photo</th>
                     <th>Restaurant Name</th>
                   </tr>
                 </thead>
-
                 <tbody>
-                  {
-                    getdata.map((e) => {
-                      return (
-                        <>
-                          <tr>
-                            <td>
-                              <Link to={`/cart/${e.id}`} onClick={handleClose}>
-                                <img src={e.imgdata} style={{ width: "5rem", height: '5rem' }} alt='' /></Link>
-                            </td>
-                            <td>
-                              <p>{e.rname}</p>
-                              <p>Price : ₹ {e.price} </p>
-                              <p>Quantity : {e.qnty} </p>
-                              <hr />
-
-                              <p style={{ color: 'red', fontSize: 20, cursor: "pointer" }} onClick={e.qnty <= 1 ? () => dlt(e.id) : () => remove(e)}>
-                                <i className='fas fa-trash smalltrash'></i>
-                              </p>
-                            </td>
-                            <td className='mt-5' style={{ color: 'red', fontSize: 20, cursor: "pointer" }} onClick={() => dlt(e.id)}>
-                              <i className='fas fa-trash largetrash'></i>
-                            </td>
-
-                          </tr>
-
-                        </>
-                      )
-                    })
-                  }
-
-                  <div className='d-flex justify-content-between'>
-                    <p className='text-left'>Total: ₹ {price}</p>
-                    <button className='btn btn-success' type='button' onClick={makePayment}>Checkout</button>
-                  </div>
-
+                  {getdata.map((e) => (
+                    <tr key={e.id}>
+                      <td>
+                        <Link to={`/cart/${e.id}`} onClick={handleClose}>
+                          <img src={e.imgdata} style={{ width: "5rem", height: '5rem' }} alt='' />
+                        </Link>
+                      </td>
+                      <td>
+                        <p>{e.rname}</p>
+                        <p>Price : ₹ {e.price} </p>
+                        <p>Quantity : {e.qnty} </p>
+                        <hr />
+                        <p style={{ color: 'red', fontSize: 20, cursor: "pointer" }} onClick={e.qnty <= 1 ? () => dlt(e.id) : () => remove(e)}>
+                          <i className='fas fa-trash smalltrash'></i>
+                        </p>
+                      </td>
+                      <td className='mt-5' style={{ color: 'red', fontSize: 20, cursor: "pointer" }} onClick={() => dlt(e.id)}>
+                        <i className='fas fa-trash largetrash'></i>
+                      </td>
+                    </tr>
+                  ))}
+                  <tr>
+                    <td colSpan="3">
+                      <div className='d-flex justify-content-between'>
+                        <p className='text-left'>Total: ₹ {price}</p>
+                        <button className='btn btn-success' type='button' onClick={makePayment}>Checkout</button>
+                      </div>
+                    </td>
+                  </tr>
                 </tbody>
               </Table>
             </div> :
             <div className='card_details d-flex justify-content-center align-items-center' style={{ width: "24rem", padding: 10, position: 'relative' }}>
               <i className='fas fa-close smallclose' onClick={handleClose} style={{ position: "absolute", top: 2, right: 20, fontSize: 23, cursor: 'pointer' }} />
-              <p style={{ fontSize: 22 }}>Your Carts is Empty</p>
+              <p style={{ fontSize: 22 }}>Your Cart is Empty</p>
               <img src='./cart.gif' alt='' className='emptycart_img' style={{ padding: 10, width: "5rem" }} />
             </div>
         }
-
       </Menu>
     </Navbar>
-
- <div className=''>
- <Navbar
-      className='fixed-bottom footer mt-4'
-      style={{ height: '50px', background: '#28a745' }}
-    >
-      <Container>
-        <Nav className="me-auto">
-          <Link to='/' className='text-decoration-none text-light'>
-            Zepto
-          </Link>
-          <Link to='/' className='text-decoration-none text-white mx-2'>
-            Home
-          </Link>
-        </Nav>
-      </Container>
-    </Navbar>
- </div>
-</>
+  
+    <div className='fixed-bottom'>
+      <Navbar
+        className='footer mt-4'
+        style={{ height: '50px', background: '#28a745' }}
+      >
+        <Container>
+          <Nav className="me-auto">
+            <Link to='/' className='text-decoration-none text-light'>
+              Zepto
+            </Link>
+            <Link to='/' className='text-decoration-none text-white mx-2'>
+              Home
+            </Link>
+          </Nav>
+        </Container>
+      </Navbar>
+    </div>
+  </>
+  
   );
 }
 

@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
 import Cardsdata from './CardsData';
-import "./style.css";
+import "../css/style.css";
 import { useDispatch } from 'react-redux';
 import { ADD } from './redux/actions/actions';
 
