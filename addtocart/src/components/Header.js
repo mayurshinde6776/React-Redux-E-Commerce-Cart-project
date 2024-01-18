@@ -31,7 +31,7 @@ const Header = () => {
 
   };
 
-  
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -86,11 +86,12 @@ const Header = () => {
   }
 
   return (
-
-    <Navbar bg="dark" data-bs-theme="dark" style={{ height: '60px' }}>
+<>
+    <Navbar bg="" data-bs-theme="" style={{ height: '60px' , background:"#28a745" }}>
       <Container>
-        <Link to='/' className='text-decoration-none text-light' >Add to Cart</Link>
-        <Nav className="me-auto">
+        
+        <Nav className="me-auto ">
+        <Link to='/' className='text-decoration-none text-light' >Zepto</Link>
           <Link to='/' className='text-decoration-none text-white mx-2'>Home</Link>
 
         </Nav>
@@ -178,6 +179,24 @@ const Header = () => {
       </Menu>
     </Navbar>
 
+ <div className=''>
+ <Navbar
+      className='fixed-bottom footer mt-4'
+      style={{ height: '50px', background: '#28a745' }}
+    >
+      <Container>
+        <Nav className="me-auto">
+          <Link to='/' className='text-decoration-none text-light'>
+            Zepto
+          </Link>
+          <Link to='/' className='text-decoration-none text-white mx-2'>
+            Home
+          </Link>
+        </Nav>
+      </Container>
+    </Navbar>
+ </div>
+</>
   );
 }
 

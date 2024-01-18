@@ -36,6 +36,20 @@
       background-color: green;
   }
   
+  /* Add the following styles to your CSS or style file */
+
+.custom-button {
+    background-color: #28a745; /* Green background color */
+    color: #fff; /* Dark text color */
+    border: 1px solid #28a745; /* Green border */
+  }
+  
+  .custom-button:hover {
+    background-color: #fff; /* Light green background color on hover */
+    border: 1px solid #28a745; /* Green border on hover */
+    color: #343a40; /* Dark text color on hover */
+  }
+  
   @media (max-width:772px){
       .iteamsdetails{
           flex-direction: column;
