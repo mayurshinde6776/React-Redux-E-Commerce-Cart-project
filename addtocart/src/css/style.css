@@ -36,6 +36,19 @@
       background-color: green;
   }
   
+
+.custom-button {
+    background-color: #28a745; 
+    color: #fff; 
+    border: 1px solid #28a745;
+  }
+  
+  .custom-button:hover {
+    background-color: #fff; 
+    border: 1px solid #28a745; 
+    color: #343a40; 
+  }
+  
   @media (max-width:772px){
       .iteamsdetails{
           flex-direction: column;

@@ -16,6 +16,7 @@ function App() {
    <Header/>
    <Routes>
     <Route path='/' element={<Cards/>} />
+    <Route path='/home' element={<Cards/>} />
     <Route path='/cart/:id' element={<CardsDetails/>} />
     <Route path='/success' element={<Success/>} />
     <Route path='/cancel' element={<Cancel/>} />
